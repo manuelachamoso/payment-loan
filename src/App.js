@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Header from './Components/Header';
+import Formulario from './Components/Form';
+import Message from './Components/Message';
+import Results from './Components/Results';
+import Spinner from './Components/Spinner';
+
 
 function App() {
+  const [amount, saveAmount] = useState(0);
+  const [period, savePeriod] = useState('');
+  const [total, saveTotal] = useState(0);
+  const [loading, saveLoading] = useState(false);
+
+  let component;
+
+  if(loading) {
+    component = <Spinner />
+  } else if (total === 0) {
+    component = <Message />
+  } else {
+    component = <Results 
+                  total = {total}
+                  period = {period}
+                  amount = {amount}
+                />
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+      <Header 
+        titulo = "Payment Loan"
+      />
+      <div className= "container">
+      <Formulario 
+          amount = {amount}
+          saveAmount = {saveAmount}
+          period = {period}
+          savePeriod = {savePeriod}
+          total = {total}
+          saveTotal = {saveTotal}
+          saveLoading = {saveLoading}          
+      />    
+      <div className='message'>{component}</div>
+      
     </div>
+    </>
   );
 }
 
